@@ -1,38 +1,34 @@
-var express=require('express');
-var express_session= require('express-session');
-var app=express();
-var path=require('path');
-var ejs=require('ejs');
+var express = require('express')
+var path = require('path')
+var app = express()
+var session = require('express-session');
+var engine = require("ejs-mate");
+var port=3000;
 
+app.engine("ejs", engine);
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'Views'));
 
-app
+app.use(express.static(path.join(__dirname,'/public'))) 
+app.use(express.static(path.join(__dirname,'/public/uploads')))
 
-var user=require('/Models/userSchema');
+require("./config/db");
 
-//database Connection 
+app.use(express.urlencoded({extended: true}))
+app.use(express.json())               
+app.use(session({
+    secret: "xYzUCAchitkara",
+    resave: false,
+    saveUninitialized: false,
+    clear_interval: 900,
+    autoRemove: 'native',
+    cookie: {maxAge: 3000000}
+}))
 
-const mongoose = require('mongoose');
-var mongoDB = 'mongodb://localhost/fileManagement';
+app.use('/',require('./Routes/'));
 
-mongoose.set('useFindAndModify', false);
-mongoose.connect(mongoDB, {useNewUrlParser : true,useUnifiedTopology: true});
-
-mongoose.connection.on('error', (err) => {
-	console.log('DB connection error');
+app.get('/', function(req,res) {
+    res.render('login');
 })
 
-mongoose.connection.on('connected', (err) => {
-	console.log('DB connected');
-})
-
-
-
-
-
-
-app.listen(3000,function()
-{
-	console.log('port listened at 3000');
-});
-
-
+app.listen(port,()=>{console.log("Running on port "+port);});
