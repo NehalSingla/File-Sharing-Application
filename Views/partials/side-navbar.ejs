@@ -1,0 +1,222 @@
+<div id="sidebar">
+    <ul class="sidebar-list">
+        <li class="list">
+        <a onclick="openbar()" id="open">
+            <span class="list-span">
+                <i class="fas fa-bars" id="icon"></i>
+            </span>
+                Cq
+        </a>
+        </li>
+     
+           <li class="list" id="sidebar-home">
+            <a href="/login/home">
+                <span class="list-span">
+                    <i class="fas fa-home" id="icon"></i>
+                </span>
+                Home
+            </a>
+           </li> 
+
+        <% if(data.role == "Admin"){ %>         
+            <li class="list" id="sidebar-adduser">
+             <a href="/admin/addUser">
+                <span class="list-span">
+                    <i class="fas fa-plus-square" id="icon"></i>
+                </span>
+                Add User
+             </a>
+             </li>
+        <% } %>
+
+         <% if(data.role == "Admin"){ %> 
+            <li class="list" id="sidebar-userlist">
+            <a href="/admin/manage_users">
+                <span class="list-span">
+                    <i class="fas fa-list" id="icon"></i>
+                </span>
+                Users List
+            </a>
+           </li>            
+        <% } %>
+
+        <% if(data.role == "Admin"){ %>         
+            <li class="list">
+             <a href="/admin/manage_files">
+                <span class="list-span">
+                    <i class="fas fa-copy" id="icon"></i>
+                </span>
+                All Files
+              </a>
+           </li>
+        <% } %>
+
+        <% if(data.role == "Admin"){ %>         
+            <li class="list">
+              <a onclick="switchasuser()">
+                <span class="list-span">
+                    <i class="fas fa-toggle-off" id="icon"></i>
+                </span>
+                Switch As User
+              </a>
+           </li>
+        <% } %>
+
+        <% if(data.role == "superAdmin"){ %>         
+            <li class="list">
+              <a onclick="switchasadmin()">
+                <span class="list-span">
+                    <i class="fas fa-toggle-off" id="icon"></i>
+                </span>
+                Switch As Admin
+              </a>
+           </li>
+        <% } %>
+
+
+        <% if(data.role == "User" || data.role == "superAdmin"){ %>         
+            <li class="list">
+              <a href="/user/uploadFile">
+                <span class="list-span">
+                    <i class="fas fa-upload" id="icon"></i>
+                </span>
+                Send File
+              </a>
+           </li>
+        <% } %>
+
+        <% if(data.role == "User" || data.role == "superAdmin"){ %>         
+            <li class="list">
+              <a href="/user/sendFileRecords">
+                <span class="list-span">
+                    <i class="fas fa-paper-plane" id="icon"></i>
+                </span>
+                Send Files Record
+              </a>
+           </li>
+        <% } %>
+
+        <% if(data.role == "User" || data.role == "superAdmin"){ %>         
+            <li class="list">
+               <a href="/user/recentFiles">  
+              
+                <span class="list-span">
+                    <i class="fas fa-file" id="icon"></i>
+                </span>
+                Recent Files
+              </a>
+           </li>
+        <% } %>
+
+        <% if(data.role == "User" || data.role == "superAdmin"){ %>         
+            <li class="list">
+             <a href="/user/receivedFiles">
+                <span class="list-span">
+                    <i class="fas fa-copy" id="icon"></i>
+                </span>
+                Received Files
+              </a>
+           </li>
+        <% } %>
+      
+             <li class="list" id="sidebar-changePassword">
+               <a href="/login/changePassword">
+                <span class="list-span">
+                    <i class="fas fa-lock" id="icon"></i>
+                </span>
+                Change Password
+              </a>
+            </li>
+       
+             <li class="list">
+               <a onclick="openlogoutpage()">
+                <span class="list-span">
+                    <i class="fas fa-sign-out-alt" id="icon"></i>
+                </span>
+                Logout
+               </a>
+            </li>
+
+    </ul>
+</div>
+
+<script>
+
+function openbar() {
+    var element = document.getElementById("viewscreen");
+    element.classList.toggle("toggle-pc");
+
+    var element = document.getElementById("sidebar");
+    element.classList.toggle("sidebar-width");
+
+
+    var element = document.getElementById("rightview");
+    element.classList.toggle("set-rightview");
+}
+
+
+function switchasuser() {
+      $.confirm({
+    title: 'Switch as User',
+    content: 'Do you really want switch state...',
+    draggable: true,
+    buttons: {
+        Yes: {
+            btnClass: 'btn-success any-other-class',
+            action: function () {
+            btnClass: 'btn-red any-other-class'
+            window.location = "/admin/switchasuser";
+        }
+    },
+        No: {
+            btnClass: 'btn-danger any-other-class',
+             action: function () {}
+    },
+    }
+    });
+}
+
+function switchasadmin() {
+      $.confirm({
+    title: 'Switch as Admin',
+    content: 'Do you really want switch state...',
+    draggable: true,
+    buttons: {
+        Yes: {
+            btnClass: 'btn-success any-other-class',
+            action: function () {
+            btnClass: 'btn-red any-other-class'
+            window.location = "/admin/switchasadmin";
+        }
+    },
+        No: {
+            btnClass: 'btn-danger any-other-class',
+             action: function () {}
+    },
+    }
+    });
+}
+
+function openlogoutpage() {
+    $.confirm({
+    theme: 'supervan',
+    title: 'Confirm Logout!',
+    content: 'Do you really want logout?',
+    draggable: true,
+    buttons: {
+        Yes: {
+            action: function () {
+             window.location = "/login/logout";
+        }
+    },
+        No: {
+             action: function () {}
+    },
+    }
+    });
+}
+
+function editProfile() {
+    window.location = '/login/editProfile';
+}
+</script>

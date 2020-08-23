@@ -12,16 +12,60 @@ user_submit.addEventListener('click',function()
     }
 
     var request= new XMLHttpRequest();
-    request.open('POST','/checklogin',true);
-    request.setReqestHeader('Content-Type','application/json');
+    request.open('POST','/login/checkLogin',true);
+    request.setRequestHeader("Content-Type", "application/json");
     var obj=new Object();
-    obj.name=user_name.value;
+    obj.email=user_name.value;
     obj.password=user_pass.value;
     request.send(JSON.stringify(obj));
     request.addEventListener('load',function()
     {
     	var data=request.responseText
-    	console.log(data);    
+    	console.log(data);  
+        if(data == 'false') {
+            $.confirm({
+              title: 'Password ?',
+              content: "Password Doesn't Match !! ",
+              draggable: true,
+              buttons: {
+                OK: {
+                    btnClass: 'btn-danger any-other-class',
+                     action: function () {      
+                  }
+                  },
+                  }
+            });
+        }
+        else if(data == 'not exits') {
+            $.confirm({
+              title: 'Email ?',
+              content: "Email not exits !! ",
+              draggable: true,
+              buttons: {
+                OK: {
+                    btnClass: 'btn-danger any-other-class',
+                     action: function () {      
+                  }
+                  },
+                  }
+            });
+        }
+        else if(data == 'deactivate') {
+            $.confirm({
+                title: 'Account ?',
+                content: "Account has been deactivated !! ",
+                draggable: true,
+                buttons: {
+                  OK: {
+                      btnClass: 'btn-danger any-other-class',
+                       action: function () {}
+                    },
+                }
+            });
+        }
+        else {
+            window.location = data;
+        }  
     })
 
 })
