@@ -3,6 +3,14 @@ var path = require('path')
 var app = express()
 var session = require('express-session');
 var engine = require("ejs-mate");
+
+var multer = require('multer');
+
+
+
+
+
+
 var port=3000;
 
 app.engine("ejs", engine);
@@ -10,7 +18,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'Views'));
 
 app.use(express.static(path.join(__dirname,'/public'))) 
-// app.use(express.static(path.join(__dirname,'/public/uploads')))
+ app.use(express.static(path.join(__dirname,'/public/uploads')))
 
 require("./config/db");
 
